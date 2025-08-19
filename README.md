@@ -66,3 +66,8 @@ pip install -r requirements.txt
 # DATABASE_URL=mysql+mysqlconnector://expense_user:2222@127.0.0.1:3306/expense_db
 # (Or, for PyMySQL)
 # DATABASE_URL=mysql+pymysql://expense_user:2222@127.0.0.1:3306/expense_db
+
+## Run the app:
+
+python app.py
+# Open the printed URL (e.g., http://127.0.0.1:5000)
