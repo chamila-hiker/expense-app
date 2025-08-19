@@ -1,0 +1,60 @@
+/* ===== Brand palette ===== */
+:root{
+  --bg:        #f6f7fb;
+  --surface:   #ffffff;
+  --text:      #0f172a;
+  --muted:     #667085;
+  --border:    #e6e8ef;
+  --accent:    #2563eb;
+  --accent-600:#1d4ed8;
+  --success:   #16a34a;
+  --danger:    #dc2626;
+}
+body{ background: var(--bg); color: var(--text); }
+
+.app-navbar{
+  backdrop-filter: saturate(160%) blur(8px);
+  background: rgba(255,255,255,.85);
+  border-bottom: 1px solid var(--border);
+}
+.logo{ filter: drop-shadow(0 2px 2px rgba(0,0,0,.07)); }
+.brand-word{ font-weight: 800; letter-spacing:.2px; }
+.brand-word span{ background: linear-gradient(90deg, var(--accent), #5b8bf7); -webkit-background-clip:text; background-clip:text; color: transparent; }
+
+.main-nav .nav-link{ border-radius: 10px; padding:.45rem .8rem; color:#334155; }
+.main-nav .nav-link.active{ color: var(--accent); background: rgba(37,99,235,.10); border: 1px solid rgba(37,99,235,.18); }
+
+.btn-soft-primary{ --b: rgba(37,99,235,.18); background: rgba(37,99,235,.10); color: var(--accent); border: 1px solid var(--b); }
+.btn-soft-primary:hover{ background: rgba(37,99,235,.16); color: var(--accent-600); border-color: rgba(37,99,235,.26); }
+.btn-lg{ padding:.82rem 1.15rem; }
+
+.app-container{ padding: 1.25rem 0 2.5rem; }
+.hero-pro{ background: linear-gradient(180deg, #f4f7ff, #ffffff); border: 1px solid var(--border); border-radius: 16px; }
+.brand-title{ font-size: clamp(1.9rem, 2.4vw + 1rem, 2.6rem); font-weight: 900; letter-spacing:.3px; margin:0; }
+.brand-title span{ background: linear-gradient(90deg, var(--accent), #70a0ff); -webkit-background-clip:text; background-clip:text; color: transparent; }
+
+.kpi-grid-pro{ display:grid; gap:.9rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.kpi-pro{ background: var(--surface); border: 1px solid var(--border); border-left: 6px solid var(--accent); border-radius: 12px; padding: 14px 16px; box-shadow: 0 6px 14px rgba(2,6,23,.04); }
+.kpi-pro.income{ border-left-color: var(--success); }
+.kpi-pro.expense{ border-left-color: var(--danger); }
+.kpi-pro .kpi-label{ font-size:.85rem; color: var(--muted); }
+.kpi-pro .kpi-value{ font-weight: 800; font-size: 1.15rem; margin-top: 2px; }
+
+.subnav .nav-link{ border-radius: 10px; }
+.table-card-pro thead{ background: #f2f4f8; }
+.table-hover tbody tr:hover{ background: rgba(37,99,235,.06); }
+.badge.cat-pro{ background:#eef2ff; color:#344054; border:1px solid #e0e7ff; }
+
+/* --- Net highlight card --- */
+.net-card{
+  border-radius: 14px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 8px 20px rgba(2,6,23,.05);
+}
+.net-card .label{ color: var(--muted); font-size:.9rem; }
+.net-card .value{ font-weight: 900; font-size: clamp(1.6rem, 2.2vw + 1rem, 2.2rem); margin: 2px 0 2px; }
+.net-card .sub{ font-size:.9rem; }
+.net-card.positive{ border-left: 6px solid var(--success); }
+.net-card.negative{ border-left: 6px solid var(--danger); }

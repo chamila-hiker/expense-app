@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Range selector -->
+<form class="row g-2 align-items-end mb-3" method="get" action="{{ url_for('dashboard') }}">
+  <div class="col-auto">
+    <label class="form-label mb-0 small text-secondary">From</label>
+    <input type="date" class="form-control" name="from" value="{{ summary.range_from }}">
+  </div>
+  <div class="col-auto">
+    <label class="form-label mb-0 small text-secondary">To</label>
+    <input type="date" class="form-control" name="to" value="{{ summary.range_to }}">
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary"><i class="bi bi-filter me-1"></i>Apply</button>
+    <a class="btn btn-outline-secondary" href="{{ url_for('dashboard') }}">Reset</a>
+  </div>
+  <div class="col text-end text-secondary small d-none d-md-block">
+    Range: <strong>{{ summary.range_label }}</strong>
+  </div>
+</form>
+
+<section class="hero-pro card border-0 shadow-sm mb-4">
+  <div class="card-body p-4 p-lg-5">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <h1 class="brand-title mb-1">My <span>Wallet</span></h1>
+        <p class="text-secondary mb-4">Snapshot for <strong>{{ summary.range_label }}</strong></p>
+        <div class="kpi-grid-pro">
+          <div class="kpi-pro income">
+            <div class="kpi-label">Income (range)</div>
+            <div class="kpi-value">Rs {{ '%.2f'|format(summary.income|default(0)) }}</div>
+          </div>
+          <div class="kpi-pro expense">
+            <div class="kpi-label">Expense (range)</div>
+            <div class="kpi-value">Rs {{ '%.2f'|format(summary.expense|default(0)) }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Big NET highlight -->
+      <div class="col-lg-4">
+        <div class="net-card {{ 'positive' if summary.net >= 0 else 'negative' }}">
+          <div class="label">Net Balance</div>
+          <div class="value">Rs {{ '%.2f'|format(summary.net) }}</div>
+          <div class="sub">{{ 'Surplus' if summary.net >= 0 else 'Deficit' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ul class="nav nav-pills mb-3 subnav">
+  <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#exp">Recent Expenses</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#inc">Recent Income</button></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="exp">
+    <div class="card shadow-sm border-0 table-card-pro">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr><th>#</th><th>Date</th><th>Category</th><th class="text-end">Amount</th><th>Method</th><th>Merchant</th><th>Note</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            {% for r in recent_expenses %}
+            <tr>
+              <td>{{ r.id }}</td>
+              <td>{{ r.tx_date }}</td>
+              <td><span class="badge rounded-pill cat-pro">{{ r.category }}</span></td>
+              <td class="text-end">Rs {{ "%.2f"|format(r.amount) }}</td>
+              <td>{{ r.payment_method or "" }}</td>
+              <td>{{ r.merchant or "" }}</td>
+              <td>{{ r.note or "" }}</td>
+              <td class="text-nowrap d-flex gap-1">
+                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('edit_expense', id=r.id) }}"><i class="bi bi-pencil"></i></a>
+                <form method="post" action="{{ url_for('delete_expense', id=r.id) }}" onsubmit="return confirm('Delete expense #{{ r.id }}?');">
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </form>
+              </td>
+            </tr>
+            {% else %}<tr><td colspan="8" class="text-muted">No expenses in range.</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane fade" id="inc">
+    <div class="card shadow-sm border-0 table-card-pro">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr><th>#</th><th>Date</th><th>Category</th><th class="text-end">Amount</th><th>Source</th><th>Note</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            {% for r in recent_incomes %}
+            <tr>
+              <td>{{ r.id }}</td>
+              <td>{{ r.tx_date }}</td>
+              <td><span class="badge rounded-pill cat-pro">{{ r.category }}</span></td>
+              <td class="text-end">Rs {{ "%.2f"|format(r.amount) }}</td>
+              <td>{{ r.source or "" }}</td>
+              <td>{{ r.note or "" }}</td>
+              <td class="text-nowrap d-flex gap-1">
+                <a class="btn btn-sm btn-outline-primary" href="{{ url_for('edit_income', id=r.id) }}"><i class="bi bi-pencil"></i></a>
+                <form method="post" action="{{ url_for('delete_income', id=r.id) }}" onsubmit="return confirm('Delete income #{{ r.id }}?');">
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </form>
+              </td>
+            </tr>
+            {% else %}<tr><td colspan="7" class="text-muted">No income in range.</td></tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

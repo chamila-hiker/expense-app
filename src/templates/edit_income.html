@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h4 class="mb-3"><i class="bi bi-pencil-square me-2"></i>Edit Income #{{ income.id }}</h4>
+<div class="card shadow-sm border-0">
+  <div class="card-body">
+    <form method="post" class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label">Date</label>
+        <input type="date" name="tx_date" class="form-control" value="{{ income.tx_date }}" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Category</label>
+        <select name="category_id" class="form-select" required>
+          {% for c in categories %}<option value="{{ c.id }}" {% if c.id==income.category_id %}selected{% endif %}>{{ c.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Amount (Rs)</label>
+        <input type="number" name="amount" class="form-control" step="0.01" min="0.01" value="{{ income.amount }}" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Source</label>
+        <input type="text" name="source" class="form-control" value="{{ income.source or '' }}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Note</label>
+        <input type="text" name="note" class="form-control" value="{{ income.note or '' }}">
+      </div>
+      <div class="col-12 d-flex justify-content-end gap-2">
+        <a href="{{ url_for('list_income') }}" class="btn btn-outline-secondary">Cancel</a>
+        <button class="btn btn-success" type="submit"><i class="bi bi-check2 me-1"></i>Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
